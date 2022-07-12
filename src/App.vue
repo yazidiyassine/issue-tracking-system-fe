@@ -8,6 +8,17 @@
   </div>
 </template>
 
+<script>
+export default {
+  created(){
+    fetch('http://localhost:8000/api/user', {
+      mode: 'cors'
+    }).then((resp) => {
+      console.log(resp)
+    })
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -1,4 +1,4 @@
-# issue-tracking-system-fe
+# issue tracking system
 
 ## Project setup
 ```
