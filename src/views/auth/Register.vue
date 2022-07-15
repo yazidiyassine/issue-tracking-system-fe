@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container
+    <v-container
                 class="fill-height"
                 fluid
         >
@@ -19,40 +19,71 @@
                                 dark
                                 flat
                         >
-                            <v-toolbar-title>Login form</v-toolbar-title>
+                            <v-toolbar-title>Register form</v-toolbar-title>
                             <v-spacer/>
                         </v-toolbar>
                         <v-card-text>
-                            <v-form ref="loginForm">
+                            <v-form ref="registerForm" :value="formValid">
                                 <v-text-field
                                         label="Email"
                                         name="email"
                                         type="email"
+                                        v-model="newUser.email"
+                                />
+                                <v-text-field
+                                        label="name"
+                                        name="name"
+                                        type="text"
+                                        v-model="newUser.name"
+
                                 />
                                 <v-text-field
                                         id="password"
                                         label="Password"
                                         name="password"
                                         type="password"
+                                        v-model="newUser.password"
+
                                 />
                             </v-form>
-                            <v-btn @click="loginGithub" color="info">Login with github</v-btn>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer/>
-                            <v-btn @click="loginUser" color="primary">Login</v-btn>
+                            <v-btn @click="registerUser" color="primary">Register</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-col>
             </v-row>
         </v-container>
-        <router-link :to="{name: 'register'}">Register</router-link>
+    <router-link :to="{name: 'login'}">Login</router-link>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
     export default {
-        name: "Login"
+        name: "Register",
+        data() {
+            return {
+                formValid: false,
+                newUser: {
+                    email: '',
+                    name: '',
+                    password: ''
+                }
+            }
+        },
+        methods: {
+            registerUser(event){
+                if(this.$refs.registerForm.validate()){
+                    axios
+                    .post('http://localhost:8000/api/register', this.newUser)
+                    .then((response) => {
+                        console.log(response);
+                    })
+                }
+            }
+        }
     }
 </script>
 
