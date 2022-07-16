@@ -28,15 +28,17 @@
                                         label="Email"
                                         name="email"
                                         type="email"
+                                        v-model="user.email"
                                 />
                                 <v-text-field
                                         id="password"
                                         label="Password"
                                         name="password"
                                         type="password"
+                                        v-model="user.password"
+
                                 />
                             </v-form>
-                            <v-btn @click="loginGithub" color="info">Login with github</v-btn>
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer/>
@@ -51,8 +53,30 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     export default {
-        name: "Login"
+        name: "Login",
+        data() {
+            return {
+                user: {
+                    email: '',
+                    password: ''
+                }
+            }
+        },
+        methods: {
+            loginUser() {
+                if(this.$refs.loginForm.validate()){
+                    axios
+                        .post('http://localhost:8000/api/login', this.user)
+                        .then( (response) => {
+                            console.log(response.data)
+
+                        })
+                }
+            }
+        }
     }
 </script>
 

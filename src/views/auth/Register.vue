@@ -55,6 +55,18 @@
                 </v-col>
             </v-row>
         </v-container>
+        <v-snackbar 
+            v-model="snackbar.show"
+        >
+        {{ snackbar.text }}
+        <v-btn
+            color="pink"
+            text
+            @click="snackbar.show = false"
+        >
+        Close
+        </v-btn>
+        </v-snackbar>
     <router-link :to="{name: 'login'}">Login</router-link>
     </div>
 </template>
@@ -70,6 +82,10 @@ import axios from 'axios';
                     email: '',
                     name: '',
                     password: ''
+                },
+                snackbar: {
+                    show: false,
+                    text: 'success'
                 }
             }
         },
@@ -79,7 +95,20 @@ import axios from 'axios';
                     axios
                     .post('http://localhost:8000/api/register', this.newUser)
                     .then((response) => {
-                        console.log(response);
+                        if(response.data && response.data.success){
+                            this.snackbar = {
+                            show: true,
+                            text: 'Success!'
+                        };
+                        this.$router.push('login')
+                            
+                        }
+                    })
+                    .catch(() => {
+                        this.snackbar = {
+                                show: true,
+                                text: 'Failed!'
+                            }
                     })
                 }
             }
