@@ -10,12 +10,13 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href=""
-        target="_blank"
-        text
-      >
-        <span class="mr-2"></span>
-        <v-icon>mdi-open-in-new</v-icon>
+      @click="logout" 
+      v-if="loggedin"
+      target="_blank"
+      text
+      >Logout
+      <span class="mr-2"></span>
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -31,7 +32,18 @@ export default {
   name: 'App',
 
   data: () => ({
-    //
+  loggedin: false,
   }),
+  created() {
+    if(localStorage.getItem('token')) {
+      this.loggedin = true
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.$router.push( 'login' )
+    }
+  }
 };
 </script>
