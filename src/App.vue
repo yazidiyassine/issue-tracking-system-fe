@@ -39,6 +39,11 @@ export default {
       this.loggedin = true
     }
   },
+  computed: {
+    loggedIn() {
+      return this.$store.getters['user/loggedIn']
+    }
+  },
   methods: {
     logout() {
       localStorage.removeItem('token');

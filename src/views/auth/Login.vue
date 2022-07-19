@@ -67,7 +67,16 @@ import axios from 'axios';
         },
         methods: {
             loginUser() {
-                if(this.$refs.loginForm.validate()){
+                 if(this.$refs.loginForm.validate()){
+                    this.$store
+                    .dispatch('user/loginUser', this.user)
+                    .then(() => {
+                        this.$router.push('dashboard')
+                        console.log(response);
+                    })
+
+                }
+               /*  if(this.$refs.loginForm.validate()){
                     axios
                         .post('http://localhost:8000/api/login', this.user)
                         .then( (response) => {
@@ -75,7 +84,10 @@ import axios from 'axios';
                             this.$router.push('dashboard');
                             console.log(response.data)
                         })
-                }
+                } */
+            },
+            created() {
+                console.log(this.$store.state)
             }
         }
     }
