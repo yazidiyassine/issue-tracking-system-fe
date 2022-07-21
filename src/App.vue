@@ -11,7 +11,7 @@
 
       <v-btn
       @click="logout" 
-      v-if="loggedin"
+      v-if="loggedIn"
       target="_blank"
       text
       >Logout
@@ -27,28 +27,33 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'App',
 
   data: () => ({
-  loggedin: false,
   }),
   created() {
-    if(localStorage.getItem('token')) {
-      this.loggedin = true
-    }
+    this.checkUserState()
   },
   computed: {
-    loggedIn() {
-      return this.$store.getters['user/loggedIn']
-    }
+    ...mapGetters({
+      loggedIn: 'user/loggedIn'
+    })
   },
   methods: {
+    ...mapActions({
+      logoutUser: 'user/logoutUser',
+      checkUserState: 'user/setLoggedInState'
+    }),
     logout() {
-      localStorage.removeItem('token');
+      this.logoutUser()
+      .then( ()=> {
       this.$router.push( 'login' )
+      })
+      /* localStorage.removeItem('token'); */
     }
-  }
+  },
 };
 </script>

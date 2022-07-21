@@ -53,8 +53,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import {mapActions} from 'vuex';
     export default {
         name: "Login",
         data() {
@@ -66,28 +65,18 @@ import axios from 'axios';
             }
         },
         methods: {
+            ...mapActions({
+                login: 'user/loginUser'
+            }),
             loginUser() {
                  if(this.$refs.loginForm.validate()){
-                    this.$store
-                    .dispatch('user/loginUser', this.user)
+                    this.login(this.user)
                     .then(() => {
                         this.$router.push('dashboard')
                         console.log(response);
                     })
 
                 }
-               /*  if(this.$refs.loginForm.validate()){
-                    axios
-                        .post('http://localhost:8000/api/login', this.user)
-                        .then( (response) => {
-                            localStorage.setItem('token', response.data);
-                            this.$router.push('dashboard');
-                            console.log(response.data)
-                        })
-                } */
-            },
-            created() {
-                console.log(this.$store.state)
             }
         }
     }

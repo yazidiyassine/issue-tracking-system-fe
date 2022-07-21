@@ -31,7 +31,25 @@ const actions = {
             reject(error);
         })
     })
-}
+},
+    logoutUser(ctx){
+        return new Promise( (resolve) => {
+            localStorage.removeItem('token');
+            ctx.commit('setLoggedIn', false);
+            resolve(true);
+    })
+    },
+    setLoggedInState(ctx) {
+        return new Promise((resolve) => {
+            if( localStorage.getItem('token')){
+                ctx.commit('setLoggedIn', true);
+                resolve(true);
+            }else{
+            ctx.commit('setLoggedIn', false);
+            resolve(false);
+            }
+        });
+    }
 };
 
 export default {
